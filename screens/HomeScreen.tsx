@@ -1,5 +1,5 @@
-import { View, Text, Button, TouchableOpacity } from "react-native";
 import React from "react";
+import { View, Text, Button, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
@@ -8,9 +8,8 @@ const HomeScreen = () => {
   return (
     <View>
       <Text>HomeScreen</Text>
-
       <Button title="Chat" onPress={() => navigation.navigate("Chat")} />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("LogIn")}>
         <Text>Chat</Text>
       </TouchableOpacity>
     </View>
