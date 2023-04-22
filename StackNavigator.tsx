@@ -5,6 +5,8 @@ import HomeScreen from "./screens/HomeScreen";
 import ChatScreen from "./screens/ChatScreen";
 import LogInScreen from "./screens/LogInScreen";
 
+import useAuth from "./hooks/useAuth";
+
 export type RootStackParamList = {
   Home: undefined;
   Chat: undefined;
@@ -14,7 +16,8 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator = () => {
-  const user = true;
+  const { user } = useAuth()!;
+  console.log(user);
 
   return (
     <Stack.Navigator initialRouteName="Home">
