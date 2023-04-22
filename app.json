@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "tinder-clone",
-    "slug": "tinder-clone",
+    "slug": "tinder",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.nirmalya_nayak.tinder"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e0faba82-f53a-462c-82a6-d53c66fa789d"
+      }
+    },
+    "owner": "nirmalya_nayak"
   }
 }
