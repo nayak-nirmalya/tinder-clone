@@ -14,7 +14,7 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator = () => {
-  const user = false;
+  const user = true;
 
   return (
     <Stack.Navigator initialRouteName="Home">
