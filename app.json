@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -32,6 +30,7 @@
         "projectId": "e0faba82-f53a-462c-82a6-d53c66fa789d"
       }
     },
-    "owner": "nirmalya_nayak"
+    "owner": "nirmalya_nayak",
+    "scheme": "tinder"
   }
 }

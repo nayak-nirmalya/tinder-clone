@@ -1,8 +1,10 @@
-import { View, Text } from "react-native";
-import React, { createContext, useContext, useState } from "react";
+import { View, Text, Button } from "react-native";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+
+import { GOOGLE_OAUTH_CLIENT_ID, EXPO_CLIENT_ID } from "@env";
 
 interface AuthProps {
   children?: React.ReactNode;
@@ -21,17 +23,52 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const signInWithGoogle = async () => {};
   const [accessToken, setAccessToken] = useState();
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState(null);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-    iosClientId: "GOOGLE_GUID.apps.googleusercontent.com"
+    androidClientId: GOOGLE_OAUTH_CLIENT_ID,
+    expoClientId: EXPO_CLIENT_ID
   });
 
+  const getUserInfo = async (token: string) => {
+    if (!token) return;
+
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const user = await response.json();
+      setUserInfo(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const tempFun = async () => {
+      if (response?.type === "success") {
+        await getUserInfo(response.authentication?.accessToken!);
+      }
+    };
+
+    tempFun();
+  }, [response]);
+
   return (
-    <AuthContext.Provider value={{ user: null }}>
-      {children}
-    </AuthContext.Provider>
+    // <AuthContext.Provider value={{ user: null }}>
+    //   {children}
+    // </AuthContext.Provider>
+    <View>
+      <Text>Nirmalya</Text>
+      <Text>{JSON.stringify(userInfo)}</Text>
+      <Button title="Sign In with Google" onPress={() => promptAsync()} />
+    </View>
   );
 };
 
