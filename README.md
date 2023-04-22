@@ -22,7 +22,7 @@ Funcionalities:
 ### Cloning the repository
 
 ```shell
-git clone https://github.com/nayak-nirmalya/uber-clone.git
+git clone https://github.com/nayak-nirmalya/tinder-clone.git
 ```
 
 ## Running Project
