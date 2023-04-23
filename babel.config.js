@@ -13,7 +13,13 @@ module.exports = function(api) {
             "IOS_OAUTH_CLIENT_ID_FIREBASE",
             "GOOGLE_OAUTH_CLIENT_ID",
             "EXPO_CLIENT_ID",
-            "EXPO_SECRET"
+            "EXPO_SECRET",
+            "APIKEY",
+            "AUTHDOMAIN",
+            "PROJECTID",
+            "STORAGEBUCKET",
+            "MESSAGINGSENDERID",
+            "APPID",
           ],
           "safe": false,
           "allowUndefined": true
