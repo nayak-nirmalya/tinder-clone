@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       const { idToken, accessToken } = response.authentication!;
       const credential = GoogleAuthProvider.credential(idToken, accessToken);
 
-      // await signInWithCredential(auth, credential);
+      await signInWithCredential(auth, credential);
 
       try {
         const userInfo = await fetch(
