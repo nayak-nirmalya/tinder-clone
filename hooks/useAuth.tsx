@@ -4,7 +4,14 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 
-import { GOOGLE_OAUTH_CLIENT_ID, EXPO_CLIENT_ID } from "@env";
+import {
+  ANDROID_OAUTH_CLIENT_ID_FIREBASE,
+  IOS_OAUTH_CLIENT_ID_FIREBASE,
+  GOOGLE_OAUTH_CLIENT_ID,
+  EXPO_CLIENT_ID
+} from "@env";
+import { AuthSessionResult, makeRedirectUri } from "expo-auth-session";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface AuthProps {
   children?: React.ReactNode;
@@ -12,63 +19,58 @@ interface AuthProps {
 
 interface AuthContextType {
   user: string | null;
+  promptAsync: () => Promise<AuthSessionResult>;
+  signInWithGoogle: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: "" });
+const AuthContext = createContext<AuthContextType>({
+  user: "",
+  signInWithGoogle: () => {},
+  promptAsync: () => new Promise(() => {})
+});
 
 WebBrowser.maybeCompleteAuthSession();
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   children
 }) => {
-  const signInWithGoogle = async () => {};
-  const [accessToken, setAccessToken] = useState();
-  const [userInfo, setUserInfo] = useState(null);
-
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: GOOGLE_OAUTH_CLIENT_ID,
-    expoClientId: EXPO_CLIENT_ID
+    androidClientId: ANDROID_OAUTH_CLIENT_ID_FIREBASE,
+    iosClientId: IOS_OAUTH_CLIENT_ID_FIREBASE,
+    expoClientId: EXPO_CLIENT_ID,
+    scopes: ["profile", "email"]
   });
 
-  const getUserInfo = async (token: string) => {
-    if (!token) return;
+  const signInWithGoogle = async () => {
+    await promptAsync();
 
-    try {
-      const response = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
+    if (response?.type === "success") {
+      try {
+        const userInfo = await fetch(
+          "https://www.googleapis.com/userinfo/v2/me?prettyPrint=true&fields=email,name,gender,id,link,locale,picture,family_name,given_name,hd,verified_email",
+          {
+            headers: {
+              Authorization: `Bearer ${response.authentication?.accessToken!}`
+            }
           }
-        }
-      );
+        );
 
-      const user = await response.json();
-      setUserInfo(user);
-    } catch (error) {
-      console.error(error);
+        const user = await userInfo.json();
+        console.log(user);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
-  useEffect(() => {
-    const tempFun = async () => {
-      if (response?.type === "success") {
-        await getUserInfo(response.authentication?.accessToken!);
-      }
-    };
-
-    tempFun();
-  }, [response]);
+  // useEffect(() => {
+  //   signInWithGoogle();
+  // }, []);
 
   return (
-    // <AuthContext.Provider value={{ user: null }}>
-    //   {children}
-    // </AuthContext.Provider>
-    <View>
-      <Text>Nirmalya</Text>
-      <Text>{JSON.stringify(userInfo)}</Text>
-      <Button title="Sign In with Google" onPress={() => promptAsync()} />
-    </View>
+    <AuthContext.Provider value={{ user: null, signInWithGoogle, promptAsync }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

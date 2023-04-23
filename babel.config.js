@@ -9,6 +9,8 @@ module.exports = function(api) {
           "moduleName": "@env",
           "path": ".env",
           "whitelist": [
+            "ANDROID_OAUTH_CLIENT_ID_FIREBASE",
+            "IOS_OAUTH_CLIENT_ID_FIREBASE",
             "GOOGLE_OAUTH_CLIENT_ID",
             "EXPO_CLIENT_ID",
             "EXPO_SECRET"
