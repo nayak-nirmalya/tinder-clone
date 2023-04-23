@@ -3,20 +3,15 @@ import React, { createContext, useContext, useEffect } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 
+import "expo-dev-client";
+
 import {
   ANDROID_OAUTH_CLIENT_ID_FIREBASE,
   IOS_OAUTH_CLIENT_ID_FIREBASE,
   EXPO_CLIENT_ID
 } from "@env";
-import { AuthSessionResult } from "expo-auth-session";
 
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithCredential,
-  signOut
-} from "firebase/auth";
-import { auth } from "../firebase";
+import { AuthSessionResult } from "expo-auth-session";
 
 interface AuthProps {
   children?: React.ReactNode;
@@ -49,9 +44,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   const signInWithGoogle = async () => {
     if (response?.type === "success") {
       const { idToken, accessToken } = response.authentication!;
-      const credential = GoogleAuthProvider.credential(idToken, accessToken);
-
-      await signInWithCredential(auth, credential);
 
       try {
         const userInfo = await fetch(
@@ -73,11 +65,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     // return Promise.reject();
   };
 
-  useEffect(() => {
-    if (!response) return;
+  // useEffect(() => {
+  //   if (!response) return;
 
-    signInWithGoogle();
-  }, [response]);
+  //   signInWithGoogle();
+  // }, [response]);
 
   return (
     <AuthContext.Provider

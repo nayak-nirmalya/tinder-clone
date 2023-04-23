@@ -18,7 +18,6 @@
     "expo-status-bar": "~1.4.4",
     "expo-system-ui": "~2.2.1",
     "expo-web-browser": "~12.1.1",
-    "firebase": "^9.20.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.71.6",
