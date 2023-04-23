@@ -1,5 +1,4 @@
-import { View, Text, Button } from "react-native";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
@@ -7,11 +6,17 @@ import * as Google from "expo-auth-session/providers/google";
 import {
   ANDROID_OAUTH_CLIENT_ID_FIREBASE,
   IOS_OAUTH_CLIENT_ID_FIREBASE,
-  GOOGLE_OAUTH_CLIENT_ID,
   EXPO_CLIENT_ID
 } from "@env";
-import { AuthSessionResult, makeRedirectUri } from "expo-auth-session";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthSessionResult } from "expo-auth-session";
+
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+  signOut
+} from "firebase/auth";
+import { auth } from "../firebase";
 
 interface AuthProps {
   children?: React.ReactNode;
@@ -42,15 +47,18 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   });
 
   const signInWithGoogle = async () => {
-    await promptAsync();
-
     if (response?.type === "success") {
+      const { idToken, accessToken } = response.authentication!;
+      const credential = GoogleAuthProvider.credential(idToken, accessToken);
+
+      // await signInWithCredential(auth, credential);
+
       try {
         const userInfo = await fetch(
           "https://www.googleapis.com/userinfo/v2/me?prettyPrint=true&fields=email,name,gender,id,link,locale,picture,family_name,given_name,hd,verified_email",
           {
             headers: {
-              Authorization: `Bearer ${response.authentication?.accessToken!}`
+              Authorization: `Bearer ${accessToken}`
             }
           }
         );
@@ -61,14 +69,24 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
         console.error(error);
       }
     }
+
+    // return Promise.reject();
   };
 
-  // useEffect(() => {
-  //   signInWithGoogle();
-  // }, []);
+  useEffect(() => {
+    if (!response) return;
+
+    signInWithGoogle();
+  }, [response]);
 
   return (
-    <AuthContext.Provider value={{ user: null, signInWithGoogle, promptAsync }}>
+    <AuthContext.Provider
+      value={{
+        user: null,
+        signInWithGoogle,
+        promptAsync
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
