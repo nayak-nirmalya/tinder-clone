@@ -19,7 +19,7 @@ const LogInScreen = () => {
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState<FirebaseAuthTypes.User>();
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   // Handle user state changes
   const onAuthStateChanged = (user: FirebaseAuthTypes.User) => {
@@ -44,9 +44,20 @@ const LogInScreen = () => {
   };
 
   useEffect(() => {
+    // @ts-ignore
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await auth().signOut();
+      setUser(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (initializing) return null;
 
@@ -64,6 +75,7 @@ const LogInScreen = () => {
       <Text className="text-xl text-center mt-32 mb-40 text-black">
         Welcome {user.displayName}
       </Text>
+      <Button title="Sign Out!" onPress={signOut} />
     </SafeAreaView>
   );
 };
