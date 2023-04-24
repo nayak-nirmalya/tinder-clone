@@ -3,8 +3,6 @@ import React, { createContext, useContext, useEffect } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 
-import "expo-dev-client";
-
 import {
   ANDROID_OAUTH_CLIENT_ID_FIREBASE,
   IOS_OAUTH_CLIENT_ID_FIREBASE,
