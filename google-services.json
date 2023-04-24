@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "764700743220",
+    "project_id": "tinderclone-firebase",
+    "storage_bucket": "tinderclone-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764700743220:android:358fdbb2b47f9875655c61",
+        "android_client_info": {
+          "package_name": "com.nirmalya_nayak.tinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764700743220-jg3v00ipopvjef57lmn9tn9ktvv1g4d8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nirmalya_nayak.tinder",
+            "certificate_hash": "5110bdb131a8eda4ccad609429a3327ba9434650"
+          }
+        },
+        {
+          "client_id": "764700743220-u53c8nil2t8rqj170tfeblerij9jh9n7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nirmalya_nayak.tinder",
+            "certificate_hash": "bcb2761e519a58dd11b9b4ecde31d5502ee43c29"
+          }
+        },
+        {
+          "client_id": "764700743220-9l8icu5lr1b1h0uqlj6dqoghv4l3ht03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFTqbnxoudlTMC9_2EzwU3IRp4sCHmLgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764700743220-9l8icu5lr1b1h0uqlj6dqoghv4l3ht03.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "764700743220-4bh591jtsm8h6mgr1a2bpcj7dgehj40l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "host.exp.exponent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

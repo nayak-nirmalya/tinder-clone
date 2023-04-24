@@ -20,5 +20,5 @@ android/
 # Secrets
 .env
 GoogleService-Info.plist
-google-services.json
+# google-services.json
 credentials.json
