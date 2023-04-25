@@ -14,9 +14,12 @@ const HomeScreen = () => {
     <SafeAreaView>
       {/* HEADER */}
       <View className="flex-row items-center justify-between px-4 pt-2">
-        <TouchableOpacity className="border-2 border-[#FF5864] rounded-full">
+        <TouchableOpacity
+          className="border-2 border-[#FF5864] rounded-full"
+          onPress={signOut}
+        >
           <Image
-            className="h-10 w-10 rounded-full border-2 "
+            className="h-10 w-10 rounded-full border-2"
             source={{
               uri: user?.photoURL!
             }}
@@ -31,7 +34,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Ionicons name="chatbubbles-sharp" size={36} color="#FF5864" />
+          <Ionicons name="chatbubbles-sharp" size={42} color="#FF5864" />
         </TouchableOpacity>
       </View>
       {/* END OF HEADER */}
