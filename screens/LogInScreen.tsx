@@ -1,34 +1,45 @@
-import React from "react";
-import { View, Text, Button } from "react-native";
+import React, { useLayoutEffect } from "react";
+import { View, Text, Button, ImageBackground } from "react-native";
 import useAuth from "../hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
+import { useNavigation } from "@react-navigation/native";
 
 const LogInScreen = () => {
   const { user, loading, onGoogleButtonPress, signOut } = useAuth();
+  const navigation = useNavigation();
 
-  if (!user) {
-    return (
-      <View className="flex flex-row justify-center">
-        {loading ? (
-          <Text>Loading...</Text>
-        ) : (
-          <GoogleSigninButton
-            className="mx-auto mt-56"
-            onPress={onGoogleButtonPress}
-          />
-        )}
-      </View>
-    );
-  }
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false
+    });
+  }, []);
+
+  // if (!user) {
+  //   return (
+  //     <View className="flex flex-row justify-center">
+  //       {loading ? (
+  //         <Text>Loading...</Text>
+  //       ) : (
+  //         <GoogleSigninButton
+  //           className="mx-auto mt-56"
+  //           onPress={onGoogleButtonPress}
+  //         />
+  //       )}
+  //     </View>
+  //   );
+  // }
 
   return (
-    <SafeAreaView>
-      <Text className="text-xl text-center mt-32 mb-40 text-black">
-        Welcome {user.displayName}
-      </Text>
-      <Button title="Sign Out!" onPress={signOut} />
-    </SafeAreaView>
+    <View className="flex-1">
+      <ImageBackground
+        className="flex-1"
+        resizeMode="cover"
+        source={{ uri: "https://tinder.com/static/tinder.png" }}
+      >
+        <Text>Hi, There!</Text>
+      </ImageBackground>
+    </View>
   );
 };
 
