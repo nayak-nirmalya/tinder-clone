@@ -13,7 +13,7 @@ const DUMMY_DATA = [
     firstName: "Nirmalya",
     lastName: "Nayak",
     age: 25,
-    occupation: "Software Developer",
+    job: "Software Developer",
     photoURL: "https://i.redd.it/fbvdmvpf3qv81.jpg"
   },
   {
@@ -21,7 +21,7 @@ const DUMMY_DATA = [
     firstName: "Swadesh",
     lastName: "Nayak",
     age: 26,
-    occupation: "IAS",
+    job: "IAS",
     photoURL:
       "https://qph.cf2.quoracdn.net/main-qimg-4920a745d6ed136ca5155062f6037197"
   },
@@ -30,7 +30,7 @@ const DUMMY_DATA = [
     firstName: "Saroj",
     lastName: "Kumar",
     age: 25,
-    occupation: "Teacher",
+    job: "Teacher",
     photoURL:
       "https://media.sciencephoto.com/image/f0283895/800wm/F0283895-Portrait_male_high_school_teacher_in_classroom.jpg"
   },
@@ -39,7 +39,7 @@ const DUMMY_DATA = [
     firstName: "Kiara",
     lastName: "Advani",
     age: 30,
-    occupation: "Software Developer",
+    job: "Software Developer",
     photoURL:
       "https://upload.wikimedia.org/wikipedia/commons/6/67/Kiara_Advani_walks_for_Shyamal-Bhumika_at_India_Couture_Week_2018_Day_4_%2803%29_%28cropped%29.jpg"
   }
@@ -95,6 +95,30 @@ const HomeScreen = () => {
                 className="h-full w-full rounded-xl absolute top-0"
                 source={{ uri: card.photoURL }}
               />
+
+              <View
+                className="
+                  bg-white 
+                  w-full py-2
+                  h-20 px-6
+                  absolute 
+                  bottom-0 
+                  justify-between 
+                  items-between 
+                  flex-row
+                  rounded-b-xl
+                  shadow-2xl
+                "
+              >
+                <View className="mt-2">
+                  <Text className="text-xl font-bold">
+                    {card.firstName} {card.lastName}
+                  </Text>
+                  <Text>{card.job}</Text>
+                </View>
+
+                <Text className=" mt-3 text-2xl font-bold">{card.age}</Text>
+              </View>
             </View>
           )}
         />
