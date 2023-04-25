@@ -1,7 +1,13 @@
 import { WEB_CLIENT_ID } from "@env";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 
 interface AuthProps {
   children?: React.ReactNode;
@@ -89,16 +95,19 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     }
   };
 
+  const memoedValue = useMemo(
+    () => ({
+      user,
+      error,
+      loading,
+      signOut,
+      onGoogleButtonPress
+    }),
+    [user, error, loading]
+  );
+
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        error,
-        loading,
-        signOut,
-        onGoogleButtonPress
-      }}
-    >
+    <AuthContext.Provider value={memoedValue}>
       {!initializing && children}
     </AuthContext.Provider>
   );
