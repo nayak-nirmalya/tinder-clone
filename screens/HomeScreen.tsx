@@ -89,6 +89,25 @@ const HomeScreen = () => {
           animateCardOpacity
           stackSize={5}
           cards={DUMMY_DATA}
+          overlayLabels={{
+            left: {
+              title: "NOPE",
+              style: {
+                label: {
+                  textAlign: "right",
+                  color: "red"
+                }
+              }
+            },
+            right: {
+              title: "MATCH",
+              style: {
+                label: {
+                  color: "#4DED30"
+                }
+              }
+            }
+          }}
           renderCard={(card) => (
             <View key={card.id} className="bg-white h-3/4 rounded-xl relative">
               <Image
