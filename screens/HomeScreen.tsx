@@ -84,6 +84,10 @@ const HomeScreen = () => {
           containerStyle={{
             backgroundColor: "transparent"
           }}
+          cardIndex={0}
+          verticalSwipe={false}
+          animateCardOpacity
+          stackSize={5}
           cards={DUMMY_DATA}
           renderCard={(card) => (
             <View key={card.id} className="bg-white h-3/4 rounded-xl relative">
