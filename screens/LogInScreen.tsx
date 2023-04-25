@@ -5,15 +5,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 
 const LogInScreen = () => {
-  const { user, onGoogleButtonPress, signOut } = useAuth();
+  const { user, loading, onGoogleButtonPress, signOut } = useAuth();
 
   if (!user) {
     return (
       <View className="flex flex-row justify-center">
-        <GoogleSigninButton
-          className="mx-auto mt-56"
-          onPress={onGoogleButtonPress}
-        />
+        {loading ? (
+          <Text>Loading...</Text>
+        ) : (
+          <GoogleSigninButton
+            className="mx-auto mt-56"
+            onPress={onGoogleButtonPress}
+          />
+        )}
       </View>
     );
   }
