@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, Button, TouchableOpacity, Image } from "react-native";
-import useAuth from "../hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
+import { View, Text, Button, TouchableOpacity, Image } from "react-native";
+
+import useAuth from "../hooks/useAuth";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -11,21 +13,25 @@ const HomeScreen = () => {
   return (
     <SafeAreaView>
       {/* HEADER */}
-      <View className="items-center relative">
-        <TouchableOpacity className="absolute left-5 top-3">
+      <View className="flex-row items-center justify-between px-4 pt-2">
+        <TouchableOpacity className="border-2 border-[#FF5864] rounded-full">
           <Image
-            className="h-10 w-10 rounded-full"
+            className="h-10 w-10 rounded-full border-2 "
             source={{
               uri: user?.photoURL!
             }}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity className="top-3">
+        <TouchableOpacity>
           <Image
-            className="h-10 w-10 rounded-full"
+            className="h-12 w-10 rounded-full"
             source={require("../assets/tinder_logo.png")}
           />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Ionicons name="chatbubbles-sharp" size={36} color="#FF5864" />
         </TouchableOpacity>
       </View>
       {/* END OF HEADER */}
