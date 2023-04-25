@@ -1,12 +1,10 @@
 import React, { useLayoutEffect } from "react";
-import { View, Text, Button, ImageBackground } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import useAuth from "../hooks/useAuth";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { useNavigation } from "@react-navigation/native";
 
 const LogInScreen = () => {
-  const { user, loading, onGoogleButtonPress, signOut } = useAuth();
+  const { loading, onGoogleButtonPress } = useAuth();
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -15,21 +13,6 @@ const LogInScreen = () => {
     });
   }, []);
 
-  // if (!user) {
-  //   return (
-  //     <View className="flex flex-row justify-center">
-  //       {loading ? (
-  //         <Text>Loading...</Text>
-  //       ) : (
-  //         <GoogleSigninButton
-  //           className="mx-auto mt-56"
-  //           onPress={onGoogleButtonPress}
-  //         />
-  //       )}
-  //     </View>
-  //   );
-  // }
-
   return (
     <View className="flex-1">
       <ImageBackground
@@ -37,7 +20,21 @@ const LogInScreen = () => {
         resizeMode="cover"
         source={{ uri: "https://tinder.com/static/tinder.png" }}
       >
-        <Text>Hi, There!</Text>
+        <TouchableOpacity
+          onPress={onGoogleButtonPress}
+          style={{ marginHorizontal: "25%" }}
+          className="absolute bottom-40 w-52 bg-white p-4 rounded-2xl"
+        >
+          {loading ? (
+            <Text className="text-center font-semibold text-lg">
+              Loading...
+            </Text>
+          ) : (
+            <Text className="text-center font-semibold text-lg">
+              Sign In & Get Swiping!
+            </Text>
+          )}
+        </TouchableOpacity>
       </ImageBackground>
     </View>
   );
