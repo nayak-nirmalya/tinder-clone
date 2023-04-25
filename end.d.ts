@@ -11,4 +11,6 @@ declare module "@env" {
   export const STORAGEBUCKET: string;
   export const MESSAGINGSENDERID: string;
   export const APPID: string;
+
+  export const WEB_CLIENT_ID: string;
 }

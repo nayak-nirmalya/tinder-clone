@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Button } from "react-native";
 import useAuth from "../hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { WEB_CLIENT_ID } from "@env";
 import {
   GoogleSignin,
   GoogleSigninButton
@@ -11,8 +11,7 @@ import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 const LogInScreen = () => {
   GoogleSignin.configure({
-    webClientId:
-      "764700743220-9l8icu5lr1b1h0uqlj6dqoghv4l3ht03.apps.googleusercontent.com"
+    webClientId: WEB_CLIENT_ID
   });
 
   const {} = useAuth();
@@ -63,9 +62,11 @@ const LogInScreen = () => {
 
   if (!user) {
     return (
-      <View>
-        <Text>Login</Text>
-        <GoogleSigninButton onPress={onGoogleButtonPress} />
+      <View className="flex flex-row justify-center">
+        <GoogleSigninButton
+          className="mx-auto mt-56"
+          onPress={onGoogleButtonPress}
+        />
       </View>
     );
   }

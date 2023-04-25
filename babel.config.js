@@ -20,6 +20,7 @@ module.exports = function(api) {
             "STORAGEBUCKET",
             "MESSAGINGSENDERID",
             "APPID",
+            "WEB_CLIENT_ID"
           ],
           "safe": false,
           "allowUndefined": true
