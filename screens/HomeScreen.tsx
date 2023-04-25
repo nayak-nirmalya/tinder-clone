@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Swiper from "react-native-deck-swiper";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -48,6 +48,7 @@ const DUMMY_DATA = [
 const HomeScreen = () => {
   const navigation = useNavigation();
   const { user, signOut } = useAuth();
+  const swipeRef = useRef(null);
 
   return (
     <SafeAreaView className="flex-1">
@@ -84,11 +85,19 @@ const HomeScreen = () => {
           containerStyle={{
             backgroundColor: "transparent"
           }}
+          ref={swipeRef}
           cardIndex={0}
           verticalSwipe={false}
           animateCardOpacity
           stackSize={5}
           cards={DUMMY_DATA}
+          backgroundColor="#4FD0E9"
+          onSwipedLeft={() => {
+            console.log("Swipe PASS!");
+          }}
+          onSwipedRight={() => {
+            console.log("Swipe MATCH!");
+          }}
           overlayLabels={{
             left: {
               title: "NOPE",
@@ -123,7 +132,7 @@ const HomeScreen = () => {
                   absolute 
                   bottom-0 
                   justify-between 
-                  items-between 
+                  items-center 
                   flex-row
                   rounded-b-xl
                   shadow-2xl
@@ -141,6 +150,32 @@ const HomeScreen = () => {
             </View>
           )}
         />
+      </View>
+
+      <View className="flex flex-row justify-evenly mb-5">
+        <TouchableOpacity
+          className="
+            items-center 
+            justify-center 
+            rounded-full 
+            w-16 h-16 
+            bg-red-200
+          "
+        >
+          <Entypo name="cross" size={32} color="red" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className="
+            items-center 
+            justify-center 
+            rounded-full 
+            w-16 h-16 
+            bg-green-200
+          "
+        >
+          <AntDesign name="heart" size={32} color="green" />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
