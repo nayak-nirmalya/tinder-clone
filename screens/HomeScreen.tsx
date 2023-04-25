@@ -9,6 +9,7 @@ import useAuth from "../hooks/useAuth";
 
 const DUMMY_DATA = [
   {
+    id: 23,
     firstName: "Nirmalya",
     lastName: "Nayak",
     age: 25,
@@ -16,6 +17,7 @@ const DUMMY_DATA = [
     photoURL: "https://i.redd.it/fbvdmvpf3qv81.jpg"
   },
   {
+    id: 83,
     firstName: "Swadesh",
     lastName: "Nayak",
     age: 26,
@@ -24,6 +26,7 @@ const DUMMY_DATA = [
       "https://qph.cf2.quoracdn.net/main-qimg-4920a745d6ed136ca5155062f6037197"
   },
   {
+    id: 12,
     firstName: "Saroj",
     lastName: "Kumar",
     age: 25,
@@ -32,6 +35,7 @@ const DUMMY_DATA = [
       "https://media.sciencephoto.com/image/f0283895/800wm/F0283895-Portrait_male_high_school_teacher_in_classroom.jpg"
   },
   {
+    id: 93,
     firstName: "Kiara",
     lastName: "Advani",
     age: 30,
@@ -46,9 +50,9 @@ const HomeScreen = () => {
   const { user, signOut } = useAuth();
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       {/* HEADER */}
-      <View className="flex-row items-center justify-between px-4 pt-2">
+      <View className="flex-row items-center justify-between px-4 pt-4">
         <TouchableOpacity
           className="border-2 border-[#FF5864] rounded-full"
           onPress={signOut}
@@ -75,14 +79,22 @@ const HomeScreen = () => {
       {/* END OF HEADER */}
 
       {/* CARD */}
-      <Swiper
-        cards={DUMMY_DATA}
-        renderCard={(card) => (
-          <View>
-            <Text>{card.firstName}</Text>
-          </View>
-        )}
-      />
+      <View className="flex-1 -mt-6">
+        <Swiper
+          containerStyle={{
+            backgroundColor: "transparent"
+          }}
+          cards={DUMMY_DATA}
+          renderCard={(card) => (
+            <View key={card.id} className="bg-white h-3/4 rounded-xl relative">
+              <Image
+                className="h-full w-full rounded-xl absolute top-0"
+                source={{ uri: card.photoURL }}
+              />
+            </View>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 };
