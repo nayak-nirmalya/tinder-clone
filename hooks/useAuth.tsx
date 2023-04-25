@@ -9,14 +9,16 @@ interface AuthProps {
 
 interface AuthContextType {
   user: FirebaseAuthTypes.User | null;
-  initializing: boolean;
+  error: string | null;
+  loading: boolean;
   signOut: () => void;
   onGoogleButtonPress: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  initializing: true,
+  error: null,
+  loading: false,
   signOut: () => {},
   onGoogleButtonPress: () => {}
 });
@@ -29,7 +31,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   });
 
   // Set an initializing state whilst Firebase connects
+  const [error, setError] = useState<string | null>(null);
   const [initializing, setInitializing] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   // Handle user state changes
@@ -39,17 +43,28 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   };
 
   const onGoogleButtonPress = async () => {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    try {
+      setLoading(true);
 
-    // Get the users ID token
-    const { idToken } = await GoogleSignin.signIn();
+      // Check if your device supports Google Play
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true
+      });
 
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      // Get the users ID token
+      const { idToken } = await GoogleSignin.signIn();
 
-    // Sign-in the user with the credential
-    await auth().signInWithCredential(googleCredential);
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      await auth().signInWithCredential(googleCredential);
+    } catch (error) {
+      setError(error as string);
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -60,11 +75,17 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
 
   const signOut = async () => {
     try {
+      setLoading(true);
+
       await GoogleSignin.revokeAccess();
       await auth().signOut();
+
       setUser(null);
     } catch (error) {
+      setError(error as string);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,12 +93,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     <AuthContext.Provider
       value={{
         user,
-        initializing,
+        error,
+        loading,
         signOut,
         onGoogleButtonPress
       }}
     >
-      {children}
+      {!initializing && children}
     </AuthContext.Provider>
   );
 };

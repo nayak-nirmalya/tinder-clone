@@ -5,9 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 
 const LogInScreen = () => {
-  const { user, initializing, onGoogleButtonPress, signOut } = useAuth();
-
-  if (initializing) return null;
+  const { user, onGoogleButtonPress, signOut } = useAuth();
 
   if (!user) {
     return (
