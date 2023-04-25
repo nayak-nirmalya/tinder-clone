@@ -19,23 +19,14 @@ const StackNavigator = () => {
   const { user } = useAuth();
 
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Home"
+    >
       {user ? (
         <>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="Chat"
-            component={ChatScreen}
-            options={{
-              headerShown: false
-            }}
-          />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
         </>
       ) : (
         <Stack.Screen name="LogIn" component={LogInScreen} />
