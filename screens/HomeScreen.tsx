@@ -154,6 +154,10 @@ const HomeScreen = () => {
 
       <View className="flex flex-row justify-evenly mb-5">
         <TouchableOpacity
+          onPress={() => {
+            // @ts-ignore
+            swipeRef.current!.swipeLeft();
+          }}
           className="
             items-center 
             justify-center 
@@ -166,6 +170,10 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={() => {
+            // @ts-ignore
+            swipeRef.current!.swipeRight();
+          }}
           className="
             items-center 
             justify-center 
