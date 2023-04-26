@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Swiper from "react-native-deck-swiper";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,6 +6,9 @@ import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
 import useAuth from "../hooks/useAuth";
+import firestore, {
+  FirebaseFirestoreTypes
+} from "@react-native-firebase/firestore";
 
 const DUMMY_DATA = [
   {
@@ -45,10 +48,36 @@ const DUMMY_DATA = [
   }
 ];
 
+export interface Profile {
+  id: string;
+  displayName: string;
+  age: string;
+  job: string;
+  photoURL: string;
+  timestamp: FirebaseFirestoreTypes.FieldValue;
+}
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const { user, signOut } = useAuth();
+  const [profiles, setProfiles] = useState<Profile[]>([]);
   const swipeRef = useRef(null);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const users = (await firestore().collection("Users").get()).docs;
+        console.log(users.flat()[0]);
+
+        setProfiles(users as unknown as Profile[]);
+        console.log(profiles);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUserData();
+  }, [user]);
 
   return (
     <SafeAreaView className="flex-1">

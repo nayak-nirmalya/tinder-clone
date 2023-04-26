@@ -58,14 +58,18 @@ const ModalScreen = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const userInfo = await firestore()
-        .collection("Users")
-        .doc(user?.uid)
-        .get();
+      try {
+        const userInfo = await firestore()
+          .collection("Users")
+          .doc(user?.uid)
+          .get();
 
-      setImage(userInfo.data()!.photoURL);
-      setAge(userInfo.data()!.age);
-      setJob(userInfo.data()!.job);
+        setImage(userInfo.data()!.photoURL);
+        setAge(userInfo.data()!.age);
+        setJob(userInfo.data()!.job);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     getUserData();
