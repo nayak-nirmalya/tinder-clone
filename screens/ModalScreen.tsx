@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import firestore from "@react-native-firebase/firestore";
 import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
@@ -55,6 +55,21 @@ const ModalScreen = () => {
     //     console.log('User deleted!');
     // });
   };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userInfo = await firestore()
+        .collection("Users")
+        .doc(user?.uid)
+        .get();
+
+      setImage(userInfo.data()!.photoURL);
+      setAge(userInfo.data()!.age);
+      setJob(userInfo.data()!.job);
+    };
+
+    getUserData();
+  }, [user]);
 
   return (
     <View
