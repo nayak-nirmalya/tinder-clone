@@ -63,21 +63,45 @@ const HomeScreen = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const swipeRef = useRef(null);
 
+  // useEffect(() => {
+  //   const getUserData = async () => {
+  //     try {
+  //       const users = (await firestore().collection("Users").get()).docs.map(
+  //         (doc) => doc.data()
+  //       );
+
+  //       setProfiles(users as Profile[]);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   getUserData();
+  // }, []);
+
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const users = (await firestore().collection("Users").get()).docs;
-        console.log(users.flat()[0]);
+        const subscriber = firestore()
+          .collection("Users")
+          .doc(user?.uid)
+          .onSnapshot((documentSnapshot) => {
+            if (!documentSnapshot.exists) {
+              navigation.navigate("Modal");
+            }
 
-        setProfiles(users as unknown as Profile[]);
-        console.log(profiles);
+            console.log("User data: ", documentSnapshot.data());
+          });
+
+        // Stop listening for updates when no longer required
+        return () => subscriber();
       } catch (error) {
         console.error(error);
       }
     };
 
     getUserData();
-  }, [user]);
+  }, []);
 
   return (
     <SafeAreaView className="flex-1">
@@ -119,7 +143,7 @@ const HomeScreen = () => {
           verticalSwipe={false}
           animateCardOpacity
           stackSize={5}
-          cards={DUMMY_DATA}
+          cards={profiles}
           backgroundColor="#4FD0E9"
           onSwipedLeft={() => {
             console.log("Swipe PASS!");
@@ -146,38 +170,66 @@ const HomeScreen = () => {
               }
             }
           }}
-          renderCard={(card) => (
-            <View key={card.id} className="bg-white h-3/4 rounded-xl relative">
-              <Image
-                className="h-full w-full rounded-xl absolute top-0"
-                source={{ uri: card.photoURL }}
-              />
-
+          renderCard={(profile) =>
+            profile ? (
               <View
-                className="
-                  bg-white 
+                key={profile.id}
+                className="bg-white h-3/4 rounded-xl relative"
+              >
+                <Image
+                  className="h-full w-full rounded-xl absolute top-0"
+                  source={{ uri: profile.photoURL }}
+                />
+
+                <View
+                  className="
+                  bg-white
                   w-full py-2
                   h-20 px-6
-                  absolute 
-                  bottom-0 
-                  justify-between 
-                  items-center 
+                  absolute
+                  bottom-0
+                  justify-between
+                  items-center
                   flex-row
                   rounded-b-xl
                   shadow-2xl
                 "
-              >
-                <View className="mt-2">
-                  <Text className="text-xl font-bold">
-                    {card.firstName} {card.lastName}
-                  </Text>
-                  <Text>{card.job}</Text>
-                </View>
+                >
+                  <View className="mt-2">
+                    <Text className="text-xl font-bold">
+                      {profile.displayName}
+                    </Text>
+                    <Text>{profile.job}</Text>
+                  </View>
 
-                <Text className=" mt-3 text-2xl font-bold">{card.age}</Text>
+                  <Text className=" mt-3 text-2xl font-bold">
+                    {profile.age}
+                  </Text>
+                </View>
               </View>
-            </View>
-          )}
+            ) : (
+              <View
+                className="
+                  relative
+                  bg-white
+                  h-3/4
+                  rounded-xl
+                  justify-center
+                  items-center
+                  shadow-2xl
+                "
+              >
+                <Text className="font-bold text-lg pb-12">
+                  No More Profiles :(
+                </Text>
+
+                <Image
+                  className="h-96 w-full"
+                  source={{ uri: "https://links.papareact.com/6gb" }}
+                />
+              </View>
+            )
+          }
         />
       </View>
 
