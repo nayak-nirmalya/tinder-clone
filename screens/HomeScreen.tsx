@@ -1,14 +1,14 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import firestore, {
+  FirebaseFirestoreTypes
+} from "@react-native-firebase/firestore";
 import Swiper from "react-native-deck-swiper";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import useAuth from "../hooks/useAuth";
-import firestore, {
-  FirebaseFirestoreTypes
-} from "@react-native-firebase/firestore";
 
 export interface Profile {
   id: string;
@@ -42,14 +42,6 @@ const HomeScreen = () => {
                 })) as Profile[]
             );
           });
-
-        console.log(profiles);
-
-        // const users = (await firestore().collection("Users").get()).docs.map(
-        //   (doc) => doc.data()
-        // );
-
-        // setProfiles(users as Profile[]);
       } catch (error) {
         console.error(error);
       }
@@ -71,7 +63,6 @@ const HomeScreen = () => {
             }
           });
 
-        // Stop listening for updates when no longer required
         return () => subscriber();
       } catch (error) {
         console.error(error);

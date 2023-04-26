@@ -15,11 +15,6 @@ const ModalScreen = () => {
   const incompleteForm = !image || !job || !age;
 
   const updateUserProfile = async () => {
-    // const usersCollection = firestore().collection('Users');
-
-    // const users = await firestore().collection('Users').get();
-    // const userInfo = await firestore().collection('Users').doc(user?.uid).get();
-
     firestore()
       .collection("Users")
       .doc(user?.uid)
@@ -36,24 +31,6 @@ const ModalScreen = () => {
         navigation.navigate("Home");
       })
       .catch((err) => console.error(err));
-
-    // firestore()
-    // .collection('Users')
-    // .doc('ABC')
-    // .update({
-    //     age: 31,
-    // })
-    // .then(() => {
-    //     console.log('User updated!');
-    // });
-
-    // firestore()
-    // .collection('Users')
-    // .doc('ABC')
-    // .delete()
-    // .then(() => {
-    //     console.log('User deleted!');
-    // });
   };
 
   useEffect(() => {
