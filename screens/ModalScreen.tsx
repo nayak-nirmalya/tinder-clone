@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import firestore from "@react-native-firebase/firestore";
 import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 
 import useAuth from "../hooks/useAuth";
@@ -13,7 +14,47 @@ const ModalScreen = () => {
 
   const incompleteForm = !image || !job || !age;
 
-  const updateUserProfile = () => {};
+  const updateUserProfile = async () => {
+    // const usersCollection = firestore().collection('Users');
+
+    // const users = await firestore().collection('Users').get();
+    // const userInfo = await firestore().collection('Users').doc(user?.uid).get();
+
+    firestore()
+      .collection("Users")
+      .doc(user?.uid)
+      .set({
+        id: user?.uid,
+        displayName: user?.displayName,
+        photoURL: image || user?.photoURL,
+        job: job,
+        age: age,
+        timestamp: firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => {
+        console.log("User Added!");
+        navigation.navigate("Home");
+      })
+      .catch((err) => console.error(err));
+
+    // firestore()
+    // .collection('Users')
+    // .doc('ABC')
+    // .update({
+    //     age: 31,
+    // })
+    // .then(() => {
+    //     console.log('User updated!');
+    // });
+
+    // firestore()
+    // .collection('Users')
+    // .doc('ABC')
+    // .delete()
+    // .then(() => {
+    //     console.log('User deleted!');
+    // });
+  };
 
   return (
     <View
@@ -48,7 +89,7 @@ const ModalScreen = () => {
         "
         placeholder="Enter Profile Picture URL"
         value={image}
-        onChangeText={(text) => setImage(text)}
+        onChangeText={setImage}
       />
 
       <Text className="text-center font-bold p-4 text-red-400">
@@ -64,7 +105,7 @@ const ModalScreen = () => {
         "
         placeholder="Enter Your Occupation"
         value={job}
-        onChangeText={(text) => setJob(text)}
+        onChangeText={setJob}
       />
 
       <Text className="text-center font-bold p-4 text-red-400">
@@ -80,13 +121,14 @@ const ModalScreen = () => {
         "
         placeholder="Enter Your Age"
         value={age}
-        onChangeText={(text) => setAge(text)}
+        onChangeText={setAge}
         keyboardType="numeric"
         maxLength={2}
       />
 
       <TouchableOpacity
         disabled={incompleteForm}
+        onPress={updateUserProfile}
         className={`
             w-64 p-3 
             rounded-xl 

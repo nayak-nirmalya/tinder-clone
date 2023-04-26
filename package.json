@@ -18,15 +18,15 @@
     "expo-auth-session": "~4.0.3",
     "expo-crypto": "~12.2.1",
     "expo-dev-client": "~2.2.1",
-    "expo-splash-screen": "~0.18.1",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-system-ui": "~2.2.1",
     "expo-web-browser": "~12.1.1",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
-    "react-native": "0.71.6",
+    "react-native": "0.71.7",
     "react-native-deck-swiper": "^2.0.13",
-    "react-native-safe-area-context": "^4.5.0",
+    "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "^3.20.0"
   },
   "devDependencies": {
