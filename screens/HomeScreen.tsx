@@ -34,10 +34,12 @@ const HomeScreen = () => {
           .collection("Users")
           .onSnapshot((documentSnapshot) => {
             setProfiles(
-              documentSnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-              })) as Profile[]
+              documentSnapshot.docs
+                .filter((doc) => doc.id !== user?.uid)
+                .map((doc) => ({
+                  id: doc.id,
+                  ...doc.data()
+                })) as Profile[]
             );
           });
 
