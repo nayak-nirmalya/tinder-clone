@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Swiper from "react-native-deck-swiper";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,44 +9,6 @@ import useAuth from "../hooks/useAuth";
 import firestore, {
   FirebaseFirestoreTypes
 } from "@react-native-firebase/firestore";
-
-const DUMMY_DATA = [
-  {
-    id: 23,
-    firstName: "Nirmalya",
-    lastName: "Nayak",
-    age: 25,
-    job: "Software Developer",
-    photoURL: "https://i.redd.it/fbvdmvpf3qv81.jpg"
-  },
-  {
-    id: 83,
-    firstName: "Swadesh",
-    lastName: "Nayak",
-    age: 26,
-    job: "IAS",
-    photoURL:
-      "https://qph.cf2.quoracdn.net/main-qimg-4920a745d6ed136ca5155062f6037197"
-  },
-  {
-    id: 12,
-    firstName: "Saroj",
-    lastName: "Kumar",
-    age: 25,
-    job: "Teacher",
-    photoURL:
-      "https://media.sciencephoto.com/image/f0283895/800wm/F0283895-Portrait_male_high_school_teacher_in_classroom.jpg"
-  },
-  {
-    id: 93,
-    firstName: "Kiara",
-    lastName: "Advani",
-    age: 30,
-    job: "Software Developer",
-    photoURL:
-      "https://upload.wikimedia.org/wikipedia/commons/6/67/Kiara_Advani_walks_for_Shyamal-Bhumika_at_India_Couture_Week_2018_Day_4_%2803%29_%28cropped%29.jpg"
-  }
-];
 
 export interface Profile {
   id: string;
@@ -63,23 +25,39 @@ const HomeScreen = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const swipeRef = useRef(null);
 
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     try {
-  //       const users = (await firestore().collection("Users").get()).docs.map(
-  //         (doc) => doc.data()
-  //       );
-
-  //       setProfiles(users as Profile[]);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   getUserData();
-  // }, []);
-
   useEffect(() => {
+    let unsub;
+
+    const getUserData = async () => {
+      try {
+        unsub = firestore()
+          .collection("Users")
+          .onSnapshot((documentSnapshot) => {
+            setProfiles(
+              documentSnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+              })) as Profile[]
+            );
+          });
+
+        console.log(profiles);
+
+        // const users = (await firestore().collection("Users").get()).docs.map(
+        //   (doc) => doc.data()
+        // );
+
+        // setProfiles(users as Profile[]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUserData();
+    return unsub;
+  }, []);
+
+  useLayoutEffect(() => {
     const getUserData = async () => {
       try {
         const subscriber = firestore()
@@ -89,8 +67,6 @@ const HomeScreen = () => {
             if (!documentSnapshot.exists) {
               navigation.navigate("Modal");
             }
-
-            console.log("User data: ", documentSnapshot.data());
           });
 
         // Stop listening for updates when no longer required
