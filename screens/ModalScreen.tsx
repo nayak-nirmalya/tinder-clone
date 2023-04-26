@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, TextInput } from "react-native";
+import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 
 import useAuth from "../hooks/useAuth";
 
@@ -67,6 +67,18 @@ const ModalScreen = () => {
         "
         placeholder="Enter Your Age"
       />
+
+      <TouchableOpacity
+        className="
+            w-64 p-3 
+            rounded-xl 
+            absolute 
+            bottom-6 
+            bg-red-400
+        "
+      >
+        <Text className="text-center text-white text-xl">Update Profile</Text>
+      </TouchableOpacity>
     </View>
   );
 };
