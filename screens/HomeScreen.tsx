@@ -3,7 +3,7 @@ import Swiper from "react-native-deck-swiper";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
-import { View, Text, Button, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 
 import useAuth from "../hooks/useAuth";
 
@@ -66,7 +66,7 @@ const HomeScreen = () => {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Modal")}>
           <Image
             className="h-12 w-10 rounded-full"
             source={require("../assets/tinder_logo.png")}
@@ -80,7 +80,7 @@ const HomeScreen = () => {
       {/* END OF HEADER */}
 
       {/* CARD */}
-      <View className="flex-1 -mt-6">
+      <View className="flex-1 mt-2">
         <Swiper
           containerStyle={{
             backgroundColor: "transparent"
