@@ -5,8 +5,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, SafeAreaView, FlatList } from "react-native";
 
 import useAuth from "../hooks/useAuth";
-import Header from "../components/Header";
 import { Profile } from "../screens/HomeScreen";
+import ChatRow from "./ChatRow";
 
 interface Match {
   id: string;
@@ -35,7 +35,11 @@ const ChatList = () => {
   }, [user?.uid]);
 
   return matches.length > 0 ? (
-    <FlatList />
+    <FlatList
+      data={matches}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <ChatRow />}
+    />
   ) : (
     <View className="p-6">
       <Text className="text-center text-lg">No Matches At the Moment. :(</Text>
