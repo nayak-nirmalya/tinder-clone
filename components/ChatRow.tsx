@@ -1,10 +1,16 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { View, Text } from "react-native";
 
-const ChatRow = () => {
+import { Match } from "../lib/typesInterfaces";
+
+export interface ChatRowProps {
+  matchDetails: Match;
+}
+
+const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
   return (
     <View>
-      <Text>ChatRow</Text>
+      <Text>{matchDetails.usersMatched}</Text>
     </View>
   );
 };

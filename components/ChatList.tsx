@@ -2,18 +2,11 @@ import firestore, {
   FirebaseFirestoreTypes
 } from "@react-native-firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, SafeAreaView, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 
-import useAuth from "../hooks/useAuth";
-import { Profile } from "../screens/HomeScreen";
 import ChatRow from "./ChatRow";
-
-interface Match {
-  id: string;
-  users: Profile[];
-  usersMatched: string[];
-  timestamp: FirebaseFirestoreTypes.FieldValue;
-}
+import useAuth from "../hooks/useAuth";
+import { Match } from "../lib/typesInterfaces";
 
 const ChatList = () => {
   const { user } = useAuth();
@@ -36,9 +29,10 @@ const ChatList = () => {
 
   return matches.length > 0 ? (
     <FlatList
+      className="h-full"
       data={matches}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ChatRow />}
+      renderItem={({ item }) => <ChatRow matchDetails={item} />}
     />
   ) : (
     <View className="p-6">

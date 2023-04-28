@@ -1,8 +1,6 @@
-import firestore, {
-  FirebaseFirestoreTypes
-} from "@react-native-firebase/firestore";
 import Swiper from "react-native-deck-swiper";
 import { useNavigation } from "@react-navigation/native";
+import firestore from "@react-native-firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { View, Text, TouchableOpacity, Image } from "react-native";
@@ -10,15 +8,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import useAuth from "../hooks/useAuth";
 import generateId from "../lib/generateId";
-
-export interface Profile {
-  id: string;
-  displayName: string;
-  age: string;
-  job: string;
-  photoURL: string;
-  timestamp: FirebaseFirestoreTypes.FieldValue;
-}
+import { Profile } from "../lib/typesInterfaces";
 
 const HomeScreen = () => {
   const navigation = useNavigation();

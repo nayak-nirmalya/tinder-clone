@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { Profile } from "./HomeScreen";
+import { Profile } from "../lib/typesInterfaces";
 import { RootStackParamList } from "../StackNavigator";
 
 export interface MatchScreenProps {
