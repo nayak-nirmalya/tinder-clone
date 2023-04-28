@@ -113,7 +113,6 @@ const HomeScreen = () => {
     if (!profiles[cardIndex]) return;
 
     const userSwiped = profiles[cardIndex];
-    console.log(`You Swiped PASS on ${userSwiped.displayName}`);
 
     const loggedInProfile = (await firestore()
       .collection("Users")
@@ -121,18 +120,64 @@ const HomeScreen = () => {
       .get()
       .then((snapshot) => snapshot.data())) as Profile;
 
-    console.log(loggedInProfile.displayName);
-
+    // chek if userSwiped, swiped on you...
     firestore()
       .collection("Users")
-      .doc(user?.uid)
+      .doc(userSwiped?.id)
       .collection("Swipes")
-      .doc(userSwiped.id)
-      .set(userSwiped)
-      .then(() => {
-        console.log("Passed User Ref Added!");
-      })
-      .catch((err) => console.error(err));
+      .doc(user?.uid)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          // user swiped on you before you matched with them
+
+          console.log(
+            `${loggedInProfile.displayName} MATCHED WITH ${userSwiped.displayName}`
+          );
+
+          firestore()
+            .collection("Users")
+            .doc(user?.uid)
+            .collection("Swipes")
+            .doc(userSwiped.id)
+            .set(userSwiped)
+            .then(() => {
+              console.log("Passed User Ref Added!");
+            })
+            .catch((err) => console.error(err));
+
+          // create a MATCH!
+
+          firestore()
+            .collection("Matches")
+            .doc(user?.uid)
+            .set({
+              // id: user?.uid,
+              // displayName: user?.displayName,
+              // photoURL: image || user?.photoURL,
+              // job: job,
+              // age: age,
+              // timestamp: firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+              console.log("User Added!");
+              navigation.navigate("Home");
+            })
+            .catch((err) => console.error(err));
+        } else {
+          // save to current user's swipes collection in firestore
+          firestore()
+            .collection("Users")
+            .doc(user?.uid)
+            .collection("Swipes")
+            .doc(userSwiped.id)
+            .set(userSwiped)
+            .then(() => {
+              console.log("Passed User Ref Added!");
+            })
+            .catch((err) => console.error(err));
+        }
+      });
   };
 
   return (
