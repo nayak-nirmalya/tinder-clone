@@ -39,9 +39,18 @@ const HomeScreen = () => {
 
         const passedUserIds = passes.length > 0 ? passes : ["doNotFilterIds"];
 
+        const swipes = await firestore()
+          .collection("Users")
+          .doc(user?.uid)
+          .collection("Swipes")
+          .get()
+          .then((snapshot) => snapshot.docs.map((doc) => doc.id));
+
+        const swipedUserIds = passes.length > 0 ? swipes : ["doNotFilterIds"];
+
         unsub = firestore()
           .collection("Users")
-          .where("id", "not-in", [...passedUserIds])
+          .where("id", "not-in", [...passedUserIds, ...swipedUserIds])
           .onSnapshot((documentSnapshot) => {
             setProfiles(
               documentSnapshot.docs
@@ -104,7 +113,18 @@ const HomeScreen = () => {
     if (!profiles[cardIndex]) return;
 
     const userSwiped = profiles[cardIndex];
-    console.log(`You Swiped MATCH on ${userSwiped.displayName}`);
+    console.log(`You Swiped PASS on ${userSwiped.displayName}`);
+
+    firestore()
+      .collection("Users")
+      .doc(user?.uid)
+      .collection("Swipes")
+      .doc(userSwiped.id)
+      .set(userSwiped)
+      .then(() => {
+        console.log("Passed User Ref Added!");
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
