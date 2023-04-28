@@ -30,8 +30,18 @@ const HomeScreen = () => {
 
     const getUserData = async () => {
       try {
+        const passes = await firestore()
+          .collection("Users")
+          .doc(user?.uid)
+          .collection("Passes")
+          .get()
+          .then((snapshot) => snapshot.docs.map((doc) => doc.id));
+
+        const passedUserIds = passes.length > 0 ? passes : ["doNotFilterIds"];
+
         unsub = firestore()
           .collection("Users")
+          .where("id", "not-in", [...passedUserIds])
           .onSnapshot((documentSnapshot) => {
             setProfiles(
               documentSnapshot.docs
