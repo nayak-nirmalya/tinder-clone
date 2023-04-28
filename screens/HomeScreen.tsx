@@ -9,6 +9,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import useAuth from "../hooks/useAuth";
+import generateId from "../lib/generateId";
 
 export interface Profile {
   id: string;
@@ -150,17 +151,17 @@ const HomeScreen = () => {
 
           firestore()
             .collection("Matches")
-            .doc(user?.uid)
+            .doc(generateId(user?.uid!, userSwiped.id))
             .set({
-              // id: user?.uid,
-              // displayName: user?.displayName,
-              // photoURL: image || user?.photoURL,
-              // job: job,
-              // age: age,
-              // timestamp: firestore.FieldValue.serverTimestamp()
+              users: {
+                [user?.uid!]: loggedInProfile,
+                [userSwiped.id]: userSwiped
+              },
+              usersMatched: [user?.uid, userSwiped.id],
+              timestamp: firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
-              console.log("User Added!");
+              console.log("Match Added!");
               navigation.navigate("Home");
             })
             .catch((err) => console.error(err));
