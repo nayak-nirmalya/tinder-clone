@@ -1,8 +1,6 @@
-import firestore, {
-  FirebaseFirestoreTypes
-} from "@react-native-firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
+import firestore from "@react-native-firebase/firestore";
 
 import ChatRow from "./ChatRow";
 import useAuth from "../hooks/useAuth";
