@@ -19,6 +19,15 @@ const Header: React.FC<HeaderProps> = ({ title, callEnabled = false }) => {
         </TouchableOpacity>
         <Text className="text-2xl font-bold pl-2">{title}</Text>
       </View>
+
+      {callEnabled && (
+        <TouchableOpacity
+          className="rounded-full mr-4 p-3 bg-red-200"
+          onPress={() => {}}
+        >
+          <Foundation name="telephone" size={20} color="red" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
