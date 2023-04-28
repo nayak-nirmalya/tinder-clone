@@ -162,7 +162,7 @@ const HomeScreen = () => {
             })
             .then(() => {
               console.log("Match Added!");
-              navigation.navigate("Match");
+              navigation.navigate("Match", { loggedInProfile, userSwiped });
             })
             .catch((err) => console.error(err));
         } else {
