@@ -1,6 +1,8 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
+import useAuth from "../hooks/useAuth";
 import { Match } from "../lib/typesInterfaces";
 
 export interface ChatRowProps {
@@ -8,11 +10,13 @@ export interface ChatRowProps {
 }
 
 const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
-  return (
-    <View>
-      <Text>{matchDetails.usersMatched}</Text>
-    </View>
-  );
+  const { user } = useAuth();
+  const navigation = useNavigation();
+  const [matchedUserInfo, setMatchedUserInfo] = useState(null);
+
+  useEffect(() => {}, []);
+
+  return <TouchableOpacity></TouchableOpacity>;
 };
 
 export default ChatRow;
