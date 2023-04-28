@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -20,9 +20,14 @@ const MatchScreen = ({ route, navigation }: MatchedProps) => {
   const { loggedInProfile, userSwiped } = route.params;
 
   return (
-    <View>
-      <Text>{loggedInProfile.displayName}</Text>
-      <Text>{userSwiped.displayName}</Text>
+    <View className="h-full bg-red-500 pt-20" style={{ opacity: 0.89 }}>
+      <View className="justify-center px-10 pt-20">
+        <Image source={{ uri: "https://links.papareact.com/mg9" }} />
+      </View>
+
+      <Text className="text-white text-center mt-5">
+        You & {userSwiped.displayName} Have Liked Each Other.
+      </Text>
     </View>
   );
 };
