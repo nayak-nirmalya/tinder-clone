@@ -72,6 +72,31 @@ const HomeScreen = () => {
     getUserData();
   }, []);
 
+  const swipeLeft = (cardIndex: number) => {
+    if (!profiles[cardIndex]) return;
+
+    const userSwiped = profiles[cardIndex];
+    console.log(`You Swiped PASS on ${userSwiped.displayName}`);
+
+    firestore()
+      .collection("Users")
+      .doc(user?.uid)
+      .collection("Passes")
+      .doc(userSwiped.id)
+      .set(userSwiped)
+      .then(() => {
+        console.log("Passed User Ref Added!");
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const swipeRight = (cardIndex: number) => {
+    if (!profiles[cardIndex]) return;
+
+    const userSwiped = profiles[cardIndex];
+    console.log(`You Swiped MATCH on ${userSwiped.displayName}`);
+  };
+
   return (
     <SafeAreaView className="flex-1">
       {/* HEADER */}
@@ -114,11 +139,13 @@ const HomeScreen = () => {
           stackSize={5}
           cards={profiles}
           backgroundColor="#4FD0E9"
-          onSwipedLeft={() => {
+          onSwipedLeft={(cardIndex) => {
             console.log("Swipe PASS!");
+            swipeLeft(cardIndex);
           }}
-          onSwipedRight={() => {
+          onSwipedRight={(cardIndex) => {
             console.log("Swipe MATCH!");
+            swipeRight(cardIndex);
           }}
           overlayLabels={{
             left: {
