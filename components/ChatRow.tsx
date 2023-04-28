@@ -36,6 +36,13 @@ const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
         }}
         className="rounded-full h-16 w-16 mr-4 shadow-2xl"
       />
+
+      <View>
+        <Text className="text-lg font-semibold">
+          {matchedUserInfo?.displayName}
+        </Text>
+        <Text>{"Say Hi!"}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
