@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { Profile } from "./HomeScreen";
@@ -14,9 +13,6 @@ export interface MatchScreenProps {
 type MatchedProps = NativeStackScreenProps<RootStackParamList, "Match">;
 
 const MatchScreen = ({ route, navigation }: MatchedProps) => {
-  //   const navigation = useNavigation();
-  //   const { params } = useRoute<RootStackParamList>();
-
   const { loggedInProfile, userSwiped } = route.params;
 
   return (
