@@ -46,7 +46,7 @@ const HomeScreen = () => {
           .get()
           .then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
-        const swipedUserIds = passes.length > 0 ? swipes : ["doNotFilterIds"];
+        const swipedUserIds = swipes.length > 0 ? swipes : ["doNotFilterIds"];
 
         unsub = firestore()
           .collection("Users")
@@ -109,11 +109,19 @@ const HomeScreen = () => {
       .catch((err) => console.error(err));
   };
 
-  const swipeRight = (cardIndex: number) => {
+  const swipeRight = async (cardIndex: number) => {
     if (!profiles[cardIndex]) return;
 
     const userSwiped = profiles[cardIndex];
     console.log(`You Swiped PASS on ${userSwiped.displayName}`);
+
+    const loggedInProfile = (await firestore()
+      .collection("Users")
+      .doc(user?.uid)
+      .get()
+      .then((snapshot) => snapshot.data())) as Profile;
+
+    console.log(loggedInProfile.displayName);
 
     firestore()
       .collection("Users")
