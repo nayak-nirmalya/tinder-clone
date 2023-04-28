@@ -28,6 +28,21 @@ const MatchScreen = ({ route, navigation }: MatchedProps) => {
       <Text className="text-white text-center mt-5">
         You & {userSwiped.displayName} Have Liked Each Other.
       </Text>
+
+      <View className="flex-row justify-evenly mt-5">
+        <Image
+          className="h-32 w-32 rounded-full"
+          source={{
+            uri: loggedInProfile.photoURL
+          }}
+        />
+        <Image
+          className="h-32 w-32 rounded-full"
+          source={{
+            uri: userSwiped.photoURL
+          }}
+        />
+      </View>
     </View>
   );
 };
