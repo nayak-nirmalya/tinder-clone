@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import firestore from "@react-native-firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import useAuth from "../hooks/useAuth";
 import getUserById from "../lib/getMatchedUserInfo";
-import { Match, Profile } from "../lib/typesInterfaces";
+import { Match, Message, Profile } from "../lib/typesInterfaces";
 
 export interface ChatRowProps {
   matchDetails: Match;
@@ -13,6 +14,7 @@ export interface ChatRowProps {
 const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
   const { user } = useAuth();
   const navigation = useNavigation();
+  const [lastMessage, setLastMessage] = useState("");
   const [matchedUserInfo, setMatchedUserInfo] = useState<Profile>();
 
   useEffect(() => {
@@ -23,6 +25,17 @@ const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
       setMatchedUserInfo(await getUserById(otherUserId[0]));
     })();
   }, [matchDetails, user]);
+
+  useEffect(() => {
+    return firestore()
+      .collection("Matches")
+      .doc(matchDetails.id)
+      .collection("Messages")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((documentSnapshot) => {
+        setLastMessage(documentSnapshot.docs[0]?.data()?.message);
+      });
+  }, [matchDetails]);
 
   return (
     <TouchableOpacity
@@ -49,7 +62,7 @@ const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
         <Text className="text-lg font-semibold">
           {matchedUserInfo?.displayName}
         </Text>
-        <Text>{"Say Hi!"}</Text>
+        <Text>{lastMessage || "Say Hi!"}</Text>
       </View>
     </TouchableOpacity>
   );
