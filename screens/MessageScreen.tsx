@@ -1,7 +1,16 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  View,
+  TextInput,
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  FlatList
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
@@ -20,6 +29,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
   const { matchDetails } = route.params;
 
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([]);
   const [matchedUserInfo, setMatchedUserInfo] = useState<Profile>();
 
   const sendMessage = () => {};
@@ -34,29 +44,50 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
   }, [matchDetails, user]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <Header title={matchedUserInfo?.displayName || "User"} callEnabled />
-      <Text>MessageScreen</Text>
 
-      <View
-        className="
-          flex-row
-          justify-between
-          items-center
-          border-t
-          border-gray-200
-          px-5 py-2
-        "
+      <KeyboardAvoidingView
+        className="flex-1"
+        keyboardVerticalOffset={10}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <TextInput
-          className="h-10 text-lg"
-          placeholder="Send Message..."
-          onChangeText={setInput}
-          onSubmitEditing={sendMessage}
-          value={input}
-        />
-        <Button title="Send" color="#FF5864" onPress={sendMessage} />
-      </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <FlatList
+            className="pl-4"
+            data={message}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item: message }) => {
+              message.userId === user?.uid ? (
+                <SenderMessage key={message.id} message={message} />
+              ) : (
+                <ReceiverMessage key={message.id} message={message} />
+              );
+            }}
+          />
+        </TouchableWithoutFeedback>
+
+        <View
+          className="
+        flex-row
+        bg-white
+        justify-between
+        items-center
+        border-t
+        border-gray-200
+        px-5 py-2
+        "
+        >
+          <TextInput
+            className="h-10 text-lg"
+            placeholder="Send Message..."
+            onChangeText={setInput}
+            onSubmitEditing={sendMessage}
+            value={input}
+          />
+          <Button title="Send" color="#FF5864" onPress={sendMessage} />
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
