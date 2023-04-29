@@ -16,7 +16,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import useAuth from "../hooks/useAuth";
 import getUserById from "../lib/getMatchedUserInfo";
 import { RootStackParamList } from "../StackNavigator";
-import { Match, Profile } from "../lib/typesInterfaces";
+import { Match, Message, Profile } from "../lib/typesInterfaces";
 
 import Header from "../components/Header";
 import SenderMessage from "../components/SenderMessage";
@@ -33,7 +33,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
   const { matchDetails } = route.params;
 
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [matchedUserInfo, setMatchedUserInfo] = useState<Profile>();
 
   const sendMessage = async () => {
