@@ -79,7 +79,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
   useEffect(() => {
     (async function () {
       const otherUserId = matchDetails.usersMatched.filter(
-        (id) => id === user?.uid
+        (id) => id !== user?.uid
       );
       setMatchedUserInfo(await getUserById(otherUserId[0]));
     })();
