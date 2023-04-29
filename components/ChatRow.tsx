@@ -34,13 +34,14 @@ const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
         mx-3 my-1 
         rounded-lg
       "
+      onPress={() => navigation.navigate("Message")}
     >
       {matchedUserInfo?.photoURL && (
         <Image
           source={{
             uri: matchedUserInfo.photoURL
           }}
-          className="rounded-full h-16 w-16 mr-4 shadow-2xl"
+          className="rounded-full h-16 w-16 mr-4"
         />
       )}
 
