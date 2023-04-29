@@ -5,8 +5,8 @@ import HomeScreen from "./screens/HomeScreen";
 import ChatScreen from "./screens/ChatScreen";
 import LogInScreen from "./screens/LogInScreen";
 import ModalScreen from "./screens/ModalScreen";
-import MessageScreen from "./screens/MessageScreen";
 import MatchScreen, { MatchScreenProps } from "./screens/MatchScreen";
+import MessageScreen, { MessageScreenProps } from "./screens/MessageScreen";
 
 import useAuth from "./hooks/useAuth";
 
@@ -15,8 +15,8 @@ export type RootStackParamList = {
   Chat: undefined;
   LogIn: undefined;
   Modal: undefined;
-  Message: undefined;
   Match: MatchScreenProps;
+  Message: MessageScreenProps;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

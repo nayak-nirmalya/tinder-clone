@@ -34,7 +34,7 @@ const ChatRow: React.FC<ChatRowProps> = ({ matchDetails }) => {
         mx-3 my-1 
         rounded-lg
       "
-      onPress={() => navigation.navigate("Message")}
+      onPress={() => navigation.navigate("Message", { matchDetails })}
     >
       {matchedUserInfo?.photoURL && (
         <Image
