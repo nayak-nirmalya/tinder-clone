@@ -61,6 +61,22 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
   };
 
   useEffect(() => {
+    return firestore()
+      .collection("Matches")
+      .doc(matchDetails.id)
+      .collection("Messages")
+      .orderBy("timestamp", "asc")
+      .onSnapshot((documentSnapshot) => {
+        setMessages(
+          documentSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+          })) as Message[]
+        );
+      });
+  }, [matchDetails]);
+
+  useEffect(() => {
     (async function () {
       const otherUserId = matchDetails.usersMatched.filter(
         (id) => id === user?.uid
@@ -84,7 +100,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
             data={messages}
             keyExtractor={(item) => item.id}
             renderItem={({ item: message }) => {
-              message.userId === user?.uid ? (
+              return message.userId === user?.uid ? (
                 <SenderMessage key={message.id} message={message} />
               ) : (
                 <ReceiverMessage key={message.id} message={message} />
