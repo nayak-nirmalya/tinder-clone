@@ -1,8 +1,10 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { View, Text } from "react-native";
+
+import { Message } from "../lib/typesInterfaces";
 
 export interface SenderMessageProps {
-  message: any;
+  message: Message;
 }
 
 const SenderMessage: React.FC<SenderMessageProps> = ({ message }) => {
