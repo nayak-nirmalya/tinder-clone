@@ -5,6 +5,7 @@ import HomeScreen from "./screens/HomeScreen";
 import ChatScreen from "./screens/ChatScreen";
 import LogInScreen from "./screens/LogInScreen";
 import ModalScreen from "./screens/ModalScreen";
+import MessageScreen from "./screens/MessageScreen";
 import MatchScreen, { MatchScreenProps } from "./screens/MatchScreen";
 
 import useAuth from "./hooks/useAuth";
@@ -14,6 +15,7 @@ export type RootStackParamList = {
   Chat: undefined;
   LogIn: undefined;
   Modal: undefined;
+  Message: undefined;
   Match: MatchScreenProps;
 };
 
@@ -32,6 +34,7 @@ const StackNavigator = () => {
           <Stack.Group>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Message" component={MessageScreen} />
           </Stack.Group>
 
           <Stack.Group
