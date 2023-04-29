@@ -65,7 +65,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
       .collection("Matches")
       .doc(matchDetails.id)
       .collection("Messages")
-      .orderBy("timestamp", "asc")
+      .orderBy("timestamp", "desc")
       .onSnapshot((documentSnapshot) => {
         setMessages(
           documentSnapshot.docs.map((doc) => ({
@@ -96,6 +96,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            inverted={true}
             className="pl-4"
             data={messages}
             keyExtractor={(item) => item.id}
