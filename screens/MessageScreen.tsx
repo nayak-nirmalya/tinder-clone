@@ -13,10 +13,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import useAuth from "../hooks/useAuth";
-import Header from "../components/Header";
 import getUserById from "../lib/getMatchedUserInfo";
 import { RootStackParamList } from "../StackNavigator";
 import { Match, Profile } from "../lib/typesInterfaces";
+
+import Header from "../components/Header";
+import SenderMessage from "../components/SenderMessage";
+import ReceiverMessage from "../components/ReceiverMessage";
 
 export interface MessageScreenProps {
   matchDetails: Match;
@@ -55,7 +58,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
             className="pl-4"
-            data={message}
+            data={messages}
             keyExtractor={(item) => item.id}
             renderItem={({ item: message }) => {
               message.userId === user?.uid ? (
