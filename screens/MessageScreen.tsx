@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Button } from "react-native";
 
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
@@ -38,7 +38,16 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
       <Header title={matchedUserInfo?.displayName || "User"} callEnabled />
       <Text>MessageScreen</Text>
 
-      <View>
+      <View
+        className="
+          flex-row
+          justify-between
+          items-center
+          border-t
+          border-gray-200
+          px-5 py-2
+        "
+      >
         <TextInput
           className="h-10 text-lg"
           placeholder="Send Message..."
@@ -46,6 +55,7 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
           onSubmitEditing={sendMessage}
           value={input}
         />
+        <Button title="Send" color="#FF5864" onPress={sendMessage} />
       </View>
     </SafeAreaView>
   );
