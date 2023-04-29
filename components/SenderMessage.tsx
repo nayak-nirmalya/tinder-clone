@@ -7,8 +7,26 @@ export interface SenderMessageProps {
 
 const SenderMessage: React.FC<SenderMessageProps> = ({ message }) => {
   return (
-    <View>
-      <Text>SenderMessage</Text>
+    <View
+      className="
+            bg-purple-600
+            rounded-lg
+            rounded-tr-none
+            px-5 py-3
+            mx-3 my-2
+        "
+      style={{
+        alignSelf: "flex-start",
+        marginLeft: "auto"
+      }}
+    >
+      <Text
+        className="
+            text-white
+        "
+      >
+        {message.message}
+      </Text>
     </View>
   );
 };

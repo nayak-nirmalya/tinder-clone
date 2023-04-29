@@ -15,3 +15,5 @@ export interface Profile {
   photoURL: string;
   timestamp: FirebaseFirestoreTypes.FieldValue;
 }
+
+export interface Message {}
