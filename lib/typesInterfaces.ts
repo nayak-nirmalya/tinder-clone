@@ -16,4 +16,11 @@ export interface Profile {
   timestamp: FirebaseFirestoreTypes.FieldValue;
 }
 
-export interface Message {}
+export interface Message {
+  id: string;
+  userId: string;
+  displayName: string;
+  photoURL: string;
+  message: string;
+  timestamp: FirebaseFirestoreTypes.FieldValue;
+}

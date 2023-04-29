@@ -9,6 +9,7 @@ import {
   FlatList
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import firestore from "@react-native-firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -35,7 +36,29 @@ const MessageScreen = ({ route, navigation }: MessageProps) => {
   const [messages, setMessages] = useState([]);
   const [matchedUserInfo, setMatchedUserInfo] = useState<Profile>();
 
-  const sendMessage = () => {};
+  const sendMessage = async () => {
+    const otherUserId = matchDetails.usersMatched.filter(
+      (id) => id === user?.uid
+    );
+    const photoURL = (await getUserById(otherUserId[0])).photoURL;
+
+    firestore()
+      .collection("Matches")
+      .doc(matchDetails.id)
+      .collection("Messages")
+      .add({
+        userId: user?.uid,
+        displayName: user?.displayName,
+        photoURL,
+        message: input,
+        timestamp: firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => {
+        setInput("");
+        console.log("Message Added to Collection!");
+      })
+      .catch((err) => console.error(err));
+  };
 
   useEffect(() => {
     (async function () {
